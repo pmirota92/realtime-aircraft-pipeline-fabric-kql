@@ -1,7 +1,23 @@
 # Real-Time Aviation Data Pipeline with Microsoft Fabric & KQL
 
 A production-ready, real-time data engineering project that streams live aircraft positions over Poland from the OpenSky Network API, ingests them directly into a Microsoft Fabric KQL Database, and visualizes flight telemetry in Power BI via DirectQuery.
+```mermaid
+graph LR
+    subgraph Local_Environment [Local Machine]
+        A[OpenSky Network API] -->|REST GET / JSON| B(Python Script / Anaconda)
+    end
 
+    subgraph Microsoft_Fabric_Cloud [Microsoft Fabric Cloud Platform]
+        B -->|Streaming MultiJSON<br/>via Azure Kusto SDK| C[(KQL Database<br/>Aviation_Eventhouse)]
+        C -->|DirectQuery Mode<br/>Sub-second Latency| D[Power BI Desktop / Service]
+    end
+
+    %% Style Customization
+    style A fill:#f9f9f9,stroke:#333,stroke-width:2px
+    style B fill:#347896,stroke:#fff,stroke-width:2px,color:#fff
+    style C fill:#f96332,stroke:#fff,stroke-width:2px,color:#fff
+    style D fill:#f2c811,stroke:#333,stroke-width:2px,color:#333
+```
 ![Data Pipeline Architecture](https://placehold.co/800x400?text=Architecture:+Python+->+Fabric+KQL+->+Power+BI) 
 *Note: Replace this placeholder URL with an architectural diagram or pipeline screenshot once uploaded to your repo.*
 
