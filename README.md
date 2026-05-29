@@ -84,10 +84,12 @@ The query flagged a dramatic vertical drop from **8,168m down to 464m** within a
 #### Case Study 2: Tactical Flight Profiles & Signal Blackouts (Flight CMB534)
 The engine isolated another massive consecutive vertical delta for flight **CMB534**, dropping from **9,448m down to 342m**. This callsign belongs to the **U.S. Transportation Command (USTRANSCOM)**, which utilizes chartered heavy wide-body aircraft to move military personnel and assets. This flight was operating out of the **33rd Transportation Aviation Base in Powidz, Poland (EPPW)**—a major military logistics hub for NATO forces.
 
+![Airline Market Share Pie Chart](screenshots/1_Altitude_Drop_ADB797F.png)
+
 * **Technical Root Cause:** This anomaly is a direct result of military operational profiles combined with **Terrain Masking**. Heavy military transports frequently execute steep, high-rate tactical descents to minimize exposure near active sectors. As the aircraft rapidly dove into the Powidz military zone, the continuous ADS-B telemetry stream was lost due to physical shielding and local receiver coverage gaps. The final 342m packet represents the exact millisecond the aircraft re-established a line-of-sight connection with a civilian ground receiver right before touchdown, leaving a 9-kilometer unmonitored telemetry gap that KQL captured sequentially.
 * **Data Engineering Takeaway:** This proves advanced competency in **domain-specific data validation**. It demonstrates the ability to differentiate between actual pipeline failures, API bugs, and external physical restrictions (such as military shielding and sensor coverage gaps) when diagnosing anomalies in streaming big data.
-
-*📂 [INSERT SCREENSHOT: Operational Security Query Results]*
+  
+![Airline Market Share Pie Chart](screenshots/1_Altitude_Drop_CMB534.png)
 
 ### 2. Market Share & Fleet Profiling: Top Airline Signal Dominance
 * **Objective:** Extract business intelligence from raw aircraft telemetry by profiling the prefix of the `callsign` to identify dominant commercial operators in the airspace.
