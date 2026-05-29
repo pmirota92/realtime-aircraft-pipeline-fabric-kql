@@ -18,8 +18,6 @@ graph LR
     style C fill:#f96332,stroke:#fff,stroke-width:2px,color:#fff
     style D fill:#f2c811,stroke:#333,stroke-width:2px,color:#333
 ```
-![Data Pipeline Architecture](https://placehold.co/800x400?text=Architecture:+Python+->+Fabric+KQL+->+Power+BI) 
-*Note: Replace this placeholder URL with an architectural diagram or pipeline screenshot once uploaded to your repo.*
 
 ## 🚀 Key Highlights & Architectural Decisions
 
@@ -85,7 +83,7 @@ RawFlights
 | top 10 by MessageCount
 | render piechart
 ```
-*📂 [INSERT SCREENSHOT: Airline Market Share Pie Chart]*
+*📂 ![Airline Market Share Pie Chart](screenshots/2_Top_Airline.png)
 
 ### 3. Structural Optimization: Altitude vs. Velocity Correlation
 * **Objective:** Analyze aerodynamic performance trends by correlating flight speeds across standardized 2,000-meter altitude "buckets".
@@ -97,7 +95,7 @@ RawFlights
 | order by altitude asc
 | render linechart with(title="Correlation: Altitude vs Average Velocity")
 ```
-*📂 [INSERT SCREENSHOT: Correlation Line Chart]*
+*📂 [Correlation Line Chart](screenshots/3_Altitude_vs._Velocity_Correlation.png)
 
 ### 4. Advanced Spatial Analytics: Dynamic Distance from Hub (Warsaw)
 * **Objective:** Compute the dynamic, real-time proximity of all airborne objects relative to a central hub (Warsaw Central Coordinates).
