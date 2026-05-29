@@ -83,7 +83,7 @@ RawFlights
 | top 10 by MessageCount
 | render piechart
 ```
-*📂 ![Airline Market Share Pie Chart](screenshots/2_Top_Airline.png)
+![Airline Market Share Pie Chart](screenshots/2_Top_Airline.png)
 
 ### 3. Structural Optimization: Altitude vs. Velocity Correlation
 * **Objective:** Analyze aerodynamic performance trends by correlating flight speeds across standardized 2,000-meter altitude "buckets".
@@ -95,7 +95,7 @@ RawFlights
 | order by altitude asc
 | render linechart with(title="Correlation: Altitude vs Average Velocity")
 ```
-*📂 [Correlation Line Chart](screenshots/3_Altitude_vs._Velocity_Correlation.png)
+![Correlation Line Chart](screenshots/3_Altitude_vs._Velocity_Correlation.png)
 
 ### 4. Advanced Spatial Analytics: Dynamic Distance from Hub (Warsaw)
 * **Objective:** Compute the dynamic, real-time proximity of all airborne objects relative to a central hub (Warsaw Central Coordinates).
