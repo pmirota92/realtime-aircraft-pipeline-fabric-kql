@@ -118,18 +118,21 @@ RawFlights
 
 ### 4. Advanced Spatial Analytics: Dynamic Distance from Hub (Warsaw)
 * **Objective:** Compute the dynamic, real-time proximity of all airborne objects relative to a central hub (Warsaw Central Coordinates).
-* **Technical Value:** Leverages KQL's native geospatial capabilities (`geo_distance_2points`) to calculate spherical earth distances on the fly without external ETL transformation.
+* **Technical Value:** Leverages KQL's native geospatial capabilities (`geo_distance_2points`) coupled with strict upstream validation to isolate minimum flight distances from a strategic central node.
+
 ```kql
-let warsaw_lat = 52.23;
-let warsaw_lon = 21.01;
+let warsw_lat = 52.23;
+let warsw_lon = 21.01;
 RawFlights
 | where latitude > 0 and longitude > 0
-| extend DistanceToCapitalKM = geo_distance_2points(longitude, latitude, warsaw_lon, warsaw_lat) / 1000.0
-| summarize ClosestToCapitalKM = min(DistanceToCapitalKM) by callsign
+| where isnotempty(callsign) and callsign != "UNKNOWN" and callsign != ""
+| extend RawDistance = geo_distance_2points(longitude, latitude, warsw_lon, warsw_lat) / 1000.0
+| summarize ClosestToCapitalKM = min(RawDistance) by callsign
 | order by ClosestToCapitalKM asc
-| top 10 by ClosestToCapitalKM
+| take 10
 ```
-*📂 [INSERT SCREENSHOT: Geospatial Proximity Matrix]*
+![Correlation Line Chart](screenshots/4_Dynamic_Distance_from_Hub.png)
+![Correlation Line Chart](screenshots/4_Dynamic_Distance_from_Hub_LOT.png)
 
 ### 5. Live State Representation: Temporal Deduplication (Radar View)
 * **Objective:** Recreate a stateful "Live Radar View" by stripping out historical stream telemetry and isolating only the latest position vector per aircraft.
