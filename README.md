@@ -109,3 +109,14 @@ RawFlights
 | order by altitude desc
 ```
 *📂 [INSERT SCREENSHOT: Live State Telemetry Grid]*
+
+### 6. Airspace Density: Most Congested Flight Corridors
+* **Objective:** Identify the most heavily trafficked flight corridors and sectors over the airspace by grouping geographic coordinates into spatial grids.
+* **Technical Value:** Demonstrates spatial binning using multi-variable `bin()` aggregations to convert continuous latitude/longitude streams into discrete geospatial density matrices (heatmaps).
+```kql
+RawFlights
+| where latitude > 0 and longitude > 0
+| summarize SignalCount = count() by GridLat = bin(latitude, 0.5), GridLon = bin(longitude, 0.5)
+| top 10 by SignalCount
+```
+*📂 [INSERT SCREENSHOT: Airspace Density Heatmap Grid]*
