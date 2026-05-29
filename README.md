@@ -45,7 +45,7 @@ To demonstrate the analytical capabilities of the KQL engine on incoming time-se
 ### 1. Operational Security: Sudden Altitude Drop Detection
 * **Objective:** Detect potential aviation safety incidents, transponder failures, or emergency descents by analyzing sequential records.
 * **Technical Value:** Demonstrates advanced windowing and sequential analysis utilizing `serialize` and the `prev()` function to calculate row-to-row deltas in a stateless stream.
-
+```kql
 RawFlights
 | extend PolishTime = datetime_utc_to_local(timestamp, 'Europe/Warsaw')
 | order by icao24, timestamp asc
@@ -54,38 +54,39 @@ RawFlights
 | extend AltitudeDrop = PreviousAltitude - altitude
 | where AltitudeDrop > 5000 and isnotnull(PreviousAltitude)
 | project PolishTime, callsign, icao24, PreviousAltitude, CurrentAltitude=altitude, AltitudeDrop
+```
 
 *📂 [INSERT SCREENSHOT: Operational Security Query Results]*
 
 ### 2. Market Share & Fleet Profiling: Top Airline Signal Dominance
 * **Objective:** Extract business intelligence from raw aircraft telemetry by profiling the prefix of the `callsign` to identify dominant commercial operators in the airspace.
 * **Technical Value:** Showcases string manipulation (`substring`), categorical aggregation, and integrated UI data rendering via `| render piechart`.
-
+```kql
 RawFlights
 | where callsign != "UNKNOWN"
 | extend AirlineCode = substring(callsign, 0, 3)
 | summarize MessageCount = count() by AirlineCode
 | top 10 by MessageCount
 | render piechart
-
+```
 *📂 [INSERT SCREENSHOT: Airline Market Share Pie Chart]*
 
 ### 3. Structural Optimization: Altitude vs. Velocity Correlation
 * **Objective:** Analyze aerodynamic performance trends by correlating flight speeds across standardized 2,000-meter altitude "buckets".
 * **Technical Value:** Validates statistical data binning using `bin()` and trend plotting via `| render linechart`.
-
+```kql
 RawFlights
 | where altitude > 0 and velocity > 0
 | summarize AvgVelocity = avg(velocity) by bin(altitude, 2000)
 | order by altitude asc
 | render linechart with(title="Correlation: Altitude vs Average Velocity")
-
+```
 *📂 [INSERT SCREENSHOT: Correlation Line Chart]*
 
 ### 4. Advanced Spatial Analytics: Dynamic Distance from Hub (Warsaw)
 * **Objective:** Compute the dynamic, real-time proximity of all airborne objects relative to a central hub (Warsaw Central Coordinates).
 * **Technical Value:** Leverages KQL's native geospatial capabilities (`geo_distance_2points`) to calculate spherical earth distances on the fly without external ETL transformation.
-
+```kql
 let warsaw_lat = 52.23;
 let warsaw_lon = 21.01;
 RawFlights
@@ -94,17 +95,17 @@ RawFlights
 | summarize ClosestToCapitalKM = min(DistanceToCapitalKM) by callsign
 | order by ClosestToCapitalKM asc
 | top 10 by ClosestToCapitalKM
-
+```
 *📂 [INSERT SCREENSHOT: Geospatial Proximity Matrix]*
 
 ### 5. Live State Representation: Temporal Deduplication (Radar View)
 * **Objective:** Recreate a stateful "Live Radar View" by stripping out historical stream telemetry and isolating only the latest position vector per aircraft.
 * **Technical Value:** Maximizes optimization via `summarize arg_max()`, a core KQL function used to resolve time-series histories into state tables.
-
+```kql
 RawFlights
 | summarize arg_max(timestamp, *) by icao24
 | extend PolishTime = datetime_utc_to_local(timestamp, 'Europe/Warsaw')
 | project PolishTime, callsign, country, longitude, latitude, velocity, altitude
 | order by altitude desc
-
+```
 *📂 [INSERT SCREENSHOT: Live State Telemetry Grid]*
