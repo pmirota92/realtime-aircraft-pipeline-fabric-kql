@@ -133,4 +133,13 @@ RawFlights
 | summarize SignalCount = count() by GridLat = bin(latitude, 0.5), GridLon = bin(longitude, 0.5)
 | top 10 by SignalCount
 ```
-*📂 [INSERT SCREENSHOT: Airspace Density Heatmap Grid]*
+![Airspace Density Top 10 Grid](screenshots/6_Airspace_Density.png)
+#### 🔍 Empirical Data Insights & Interpretation
+
+The spatial analysis query yielded a highly concentrated traffic matrix across the monitored airspace. Below is an engineering interpretation of the top-performing flight corridors captured during data streaming:
+
+1. **The Western Inbound Funnel (GridLat: 50.0, GridLon: 14.0):** Secured the highest density with over 2,600 logged telemetric events. This specific coordinate sector represents the geopolitical tripoint of Poland, Czechia, and Germany. It functions as a critical high-altitude gateway for transcontinental flights routing from major Western European hubs (e.g., London, Frankfurt) towards Central Europe and Asia.
+
+2. **The Metropolitan Terminal Control Area (GridLat: 52.0, GridLon: 20.5):**
+   Registered as the second most congested sector. This grid maps directly to the western approach of the Warsaw metropolitan area. The elevated signal density is driven by commercial aircraft executing standard terminal arrival routes (STAR) for Warsaw Chopin (EPWA) and Warsaw Modlin (EPMO) airports.
+
